@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppThemeParent" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="android:windowTranslucentStatus">true</item>
+
+        <item name="android:windowContentTransitions">true</item>
+
+        <!-- specify shared element transitions -->
+        <item name="android:windowSharedElementEnterTransition">@transition/change_image_transform</item>
+        <item name="android:windowSharedElementExitTransition">@transition/change_image_transform</item>
+
+    </style>
+
+    <style name="Elevation8dp">
+        <item name="android:elevation">8dp</item>
+    </style>
+
+    <style name="Elevation6dp">
+        <item name="android:elevation">6dp</item>
+    </style>
+
+    <style name="Elevation4dp">
+        <item name="android:elevation">4dp</item>
+    </style>
+
+    <style name="Elevation2dp">
+        <item name="android:elevation">2dp</item>
+    </style>
+
+</resources>

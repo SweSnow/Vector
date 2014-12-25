@@ -1,0 +1,39 @@
+<resources>
+
+    <style name="AppThemeParent" parent="Theme.AppCompat.Light.NoActionBar"></style>
+
+    <style name="AppTheme" parent="@style/AppThemeParent">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlHighlight">@color/transparent_white</item>
+    </style>
+
+    <style name="DetailMeta">
+        <item name="android:textColor">@color/light_gray</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
+    <style name="DetailMetaAction" parent="@style/DetailMeta">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:minHeight">0dp</item>
+    </style>
+
+    <style name="Elevation8dp">
+    </style>
+
+    <style name="Elevation6dp">
+    </style>
+
+    <style name="Elevation4dp">
+    </style>
+
+    <style name="Elevation2dp">
+    </style>
+
+</resources>
