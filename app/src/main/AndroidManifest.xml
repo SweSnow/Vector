@@ -20,10 +20,12 @@
         </activity>
         <activity
             android:name=".DetailActivity"
+            android:parentActivityName=".FeedActivity"
             android:label="@string/title_activity_detail" >
         </activity>
         <activity
             android:name=".EntityDetailActivity"
+            android:parentActivityName=".FeedActivity"
             android:label="@string/title_activity_entity_detail" >
         </activity>
     </application>

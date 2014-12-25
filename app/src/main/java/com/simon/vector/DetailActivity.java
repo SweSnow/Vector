@@ -45,11 +45,7 @@ public class DetailActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.detail_settings) {
             return true;
-        } else if (id == android.R.id.home) {
-            finishAffinity();
-            startActivity(new Intent(this, FeedActivity.class));
         }
-
         return super.onOptionsItemSelected(item);
     }
 

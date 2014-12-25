@@ -15,6 +15,10 @@
     <string name="search">Search</string>
     <string name="refresh">Refresh</string>
     <string name="fullscreen">Fullscreen</string>
+    <string name="likes_single">Like</string>
+    <string name="likes_plural">Likes</string>
+    <string name="views_single">View</string>
+    <string name="views_plural">Views</string>
 
     <string-array name="sort_by">
         <item>Popular</item>

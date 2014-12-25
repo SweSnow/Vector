@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <com.simon.vector.NotifyingScrollView
+        android:scrollbars="none"
         android:id="@+id/detail_notifying_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,14 +16,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:transitionName="@string/transition_main"
-                android:id="@+id/detail_image"
-                android:src="@drawable/fireart_blog"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:transitionName="@string/transition_main"
+                    android:id="@+id/detail_image"
+                    android:src="@drawable/fireart_blog"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
 
             <LinearLayout
                 style="@style/Elevation4dp"
@@ -30,7 +43,7 @@
                 android:orientation="horizontal"
                 android:background="#313733"
                 android:paddingTop="16dp"
-                android:paddingBottom="16dp"
+                android:paddingBottom="8dp"
                 android:paddingLeft="24dp"
                 android:paddingRight="16dp"
                 android:layout_width="match_parent"
@@ -39,10 +52,11 @@
                     <com.makeramen.RoundedImageView
                         app:riv_corner_radius="18dp"
                         android:scaleType="fitCenter"
-                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="8dp"
                         android:src="@drawable/profile"
                         android:layout_width="36dp"
-                        android:layout_height="36dp" />
+                        android:layout_height="36dp"
+                        android:id="@+id/detail_profile" />
 
                     <LinearLayout
                         android:paddingLeft="12dp"

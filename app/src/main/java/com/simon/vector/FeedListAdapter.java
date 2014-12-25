@@ -1,11 +1,21 @@
 package com.simon.vector;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import org.lucasr.twowayview.widget.TwoWayView;
 
@@ -23,11 +33,15 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
         public final TextView creator;
+        public final ImageView image;
+        public final FrameLayout background;
 
         public SimpleViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.feed_list_title);
             creator = (TextView) view.findViewById(R.id.feed_list_creator);
+            image = (ImageView) view.findViewById(R.id.feed_list_image);
+            background = (FrameLayout) view.findViewById(R.id.feed_list_background);
         }
     }
 
@@ -62,12 +76,38 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
     }
 
     @Override
-    public void onBindViewHolder(SimpleViewHolder holder, int position) {
+    public void onBindViewHolder(final SimpleViewHolder holder, int position) {
 
         Shot shot = mItems.get(position);
 
         holder.title.setText(shot.getTitle());
         holder.creator.setText(shot.getUser().getName());
+
+        Picasso.with(mContext)
+                .load(shot.getImages().getNormal())
+                .placeholder(R.drawable.image_placeholder)
+                .into(holder.image, new Callback.EmptyCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Bitmap bitmap = ((BitmapDrawable) holder.image.getDrawable()).getBitmap();
+                        Palette palette = Palette.generate(bitmap);//PaletteTransformation.getPalette(bitmap);
+                        holder.background.setBackgroundColor(palette.getDarkMutedColor(Color.parseColor("#333333")));
+                    }
+                });
+
+        /*
+        Picasso.with(mContext)
+                .load(shot.getImages().getTeaser())
+                .fit().centerCrop()
+                .transform(PaletteTransformation.instance())
+                .into(holder.image, new Callback.EmptyCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Bitmap bitmap = ((BitmapDrawable) holder.image.getDrawable()).getBitmap();
+                        Palette palette = PaletteTransformation.getPalette(bitmap);
+                        H.toast(palette.getDarkMutedColor(1) + "", mContext);
+                    }
+                });*/
 
     }
 

@@ -30,7 +30,7 @@ public class FeedActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
         if (savedInstanceState == null) {
-            updateFeedFragment(new ApiFormatter().addQuery("shots/").addQuery("1").addOption(ApiFormatter.ACCESS_TOKEN).toString());
+            updateFeedFragment(new ApiFormatter().addQuery("shots/").addQuery("1858866").addOption(ApiFormatter.ACCESS_TOKEN).toString());
         }
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -74,7 +74,7 @@ public class FeedActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
+        // update the main content by replacing fragmentss
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, new FeedFragment())
@@ -83,14 +83,8 @@ public class FeedActivity extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.feed, menu);
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.feed, menu);
+        return true;
     }
 
     @Override

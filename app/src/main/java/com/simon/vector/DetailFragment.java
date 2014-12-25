@@ -3,6 +3,9 @@ package com.simon.vector;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -140,11 +143,40 @@ public class DetailFragment extends Fragment {
         });
 
         detailTitle.setText(shot.getTitle());
-        detailDescription.setText(shot.getDescription());
-
+        detailDescription.setText(getDescription(shot.getDescription()));
+        detailDescription.setMovementMethod(LinkMovementMethod.getInstance());
         detailPerson.setText(shot.getUser().getName());
 
+        Number likes = shot.getLikes_count();
+        Number views = shot.getViews_count();
+
+        if (likes == 1) {
+            detailLikes.setText(likes + " " + getString(R.string.likes_single));
+        } else {
+            detailLikes.setText(likes + " " + getString(R.string.likes_plural));
+        }
+
+        if (views == 1) {
+            detailViews.setText(views + " " + getString(R.string.views_single));
+        } else {
+            detailViews.setText(views + " " + getString(R.string.views_plural));
+        }
 
         return rootView;
     }
+
+    private CharSequence getDescription(String text) {
+        Spanned description = Html.fromHtml(text);
+
+        int lastChar = 0;
+
+        for (int i = 0; i < description.length(); i++) {
+            if (description.charAt(i) != ' ') {
+                lastChar = i;
+            }
+        }
+
+        return description.subSequence(0, lastChar);
+    }
+
 }

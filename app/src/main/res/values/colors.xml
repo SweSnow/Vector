@@ -7,6 +7,7 @@
     <color name="color_control_highlight">#88ea4c89</color>
 
     <color name="transparent_white">#99ffffff</color>
+    <color name="transparent_gray">#66cccccc</color>
     <color name="light_gray">#ddffffff</color>
 
 </resources>
