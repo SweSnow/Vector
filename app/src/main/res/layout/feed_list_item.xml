@@ -21,7 +21,6 @@
             android:id="@+id/feed_list_image"
             android:transitionName="@string/transition_main"
             android:adjustViewBounds="true"
-            android:src="@drawable/fireart_blog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -55,7 +54,7 @@
                     android:maxLines="3"
                     android:ellipsize="end"
                     android:id="@+id/feed_list_creator"
-                    android:textColor="@color/transparent_white"
+                    android:textColor="@color/secondary_text"
                     app:fontFamily="roboto"
                     app:textWeight="medium"
                     android:layout_width="wrap_content"

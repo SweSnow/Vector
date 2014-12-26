@@ -5,29 +5,23 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 
 import org.lucasr.twowayview.ItemClickSupport;
 import org.lucasr.twowayview.widget.TwoWayView;
-
-import java.util.ArrayList;
 
 public class FeedFragment extends Fragment {
 
@@ -36,8 +30,6 @@ public class FeedFragment extends Fragment {
 
     private String url = "";
     private boolean hasUrl = false;
-
-
 
     private final static String RECYCLER_SCROLL_KEY = "RECYCLER_SCROLL_KEY";
     public final static String SENT_URL_KEY = "SENT_URL_KEY";
@@ -61,10 +53,12 @@ public class FeedFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
 
         TwoWayView recyclerView = (TwoWayView) rootView.findViewById(R.id.list);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(false);
 
         adapter = new FeedListAdapter(getActivity(), recyclerView);
         recyclerView.setAdapter(adapter);
+
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         loadData();
 
@@ -77,7 +71,9 @@ public class FeedFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
 
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
-                        getActivity(), view.findViewById(R.id.feed_list_image), "feedTransition");
+                        getActivity(),
+                        view.findViewById(R.id.feed_list_image),
+                        "feedTransition");
                 intent.putExtra("shot", adapter.getItem(pos));
 
                 getActivity().startActivity(intent, options.toBundle());
@@ -103,7 +99,6 @@ public class FeedFragment extends Fragment {
 
         swipeRefreshLayout.setEnabled(false);
 
-
         return rootView;
     }
 
@@ -119,14 +114,10 @@ public class FeedFragment extends Fragment {
                         Gson gson = new Gson();
                         Shot shot = gson.fromJson(response, Shot.class);
 
-                        ArrayList<Shot> shots = new ArrayList<Shot>();
-
                         for (int i = 0; i < 10; i++) {
-                            shots.add(shot);
+                            adapter.addItem(i, shot);
                         }
 
-                        adapter.setData(shots);
-                        adapter.notifyDataSetChanged();
                     }
                 },
                 new Response.ErrorListener() {

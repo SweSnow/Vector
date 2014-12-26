@@ -10,4 +10,9 @@
     <color name="transparent_gray">#66cccccc</color>
     <color name="light_gray">#ddffffff</color>
 
+    <color name="secondary_text">#bbffffff</color>
+
+    <color name="default_background">#333333</color>
+    <color name="default_secondary_background">#555555</color>
+
 </resources>

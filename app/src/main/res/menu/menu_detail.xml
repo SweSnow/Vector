@@ -10,6 +10,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/detail_share"
+        android:icon="@drawable/ic_action_share"
+        android:title="@string/share"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/detail_fullscreen"
         android:icon="@drawable/ic_action_fullscreen"
         android:title="@string/fullscreen"

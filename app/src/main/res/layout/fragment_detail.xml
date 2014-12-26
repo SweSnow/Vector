@@ -23,7 +23,6 @@
                 <ImageView
                     android:transitionName="@string/transition_main"
                     android:id="@+id/detail_image"
-                    android:src="@drawable/fireart_blog"
                     android:background="?android:attr/selectableItemBackground"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
@@ -31,6 +30,7 @@
                     android:layout_height="wrap_content" />
 
                 <Button
+                    android:id="@+id/detail_image_button"
                     android:background="?android:attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
@@ -43,7 +43,7 @@
                 android:orientation="horizontal"
                 android:background="#313733"
                 android:paddingTop="16dp"
-                android:paddingBottom="8dp"
+                android:paddingBottom="4dp"
                 android:paddingLeft="24dp"
                 android:paddingRight="16dp"
                 android:layout_width="match_parent"
@@ -53,7 +53,6 @@
                         app:riv_corner_radius="18dp"
                         android:scaleType="fitCenter"
                         android:layout_marginTop="8dp"
-                        android:src="@drawable/profile"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:id="@+id/detail_profile" />
@@ -76,7 +75,7 @@
 
                         <com.devspark.robototextview.widget.RobotoTextView
                             android:text="Mark exploration, with some minimalistic heraldic underpinnings."
-                            android:textColor="#aaffffff"
+                            android:textColor="@color/secondary_text"
                             app:fontFamily="roboto"
                             app:textWeight="medium"
                             android:layout_width="wrap_content"

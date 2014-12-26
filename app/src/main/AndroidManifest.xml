@@ -20,13 +20,17 @@
         </activity>
         <activity
             android:name=".DetailActivity"
-            android:parentActivityName=".FeedActivity"
-            android:label="@string/title_activity_detail" >
+            android:label="@string/title_activity_detail"
+            android:parentActivityName=".FeedActivity" >
         </activity>
         <activity
             android:name=".EntityDetailActivity"
-            android:parentActivityName=".FeedActivity"
-            android:label="@string/title_activity_entity_detail" >
+            android:label="@string/title_activity_entity_detail"
+            android:parentActivityName=".FeedActivity" >
+        </activity>
+        <activity
+            android:name=".PhotoViewActivity"
+            android:label="@string/title_activity_photo_view" >
         </activity>
     </application>
 

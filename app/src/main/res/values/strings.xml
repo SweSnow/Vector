@@ -15,10 +15,24 @@
     <string name="search">Search</string>
     <string name="refresh">Refresh</string>
     <string name="fullscreen">Fullscreen</string>
+    <string name="share">Share</string>
     <string name="likes_single">Like</string>
     <string name="likes_plural">Likes</string>
     <string name="views_single">View</string>
     <string name="views_plural">Views</string>
+
+    <string name="january_short">"JAN"</string>
+    <string name="february_short">"FEB"</string>
+    <string name="march_short">"MAR"</string>
+    <string name="april_short">"APR"</string>
+    <string name="may_short">"MAY"</string>
+    <string name="june_short">"JUNE"</string>
+    <string name="july_short">"JULY"</string>
+    <string name="august_short">"AUG"</string>
+    <string name="september_short">"SEPT"</string>
+    <string name="october_short">"OCT"</string>
+    <string name="november_short">"NOV"</string>
+    <string name="december_short">"DEC"</string>
 
     <string-array name="sort_by">
         <item>Popular</item>
@@ -36,5 +50,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="transition_main">feedTransition</string>
     <string name="title_activity_entity_detail">EntityDetailActivity</string>
+    <string name="title_activity_photo_view">PhotoViewActivity</string>
 
 </resources>

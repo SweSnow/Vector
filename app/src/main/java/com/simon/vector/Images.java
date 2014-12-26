@@ -8,9 +8,7 @@ public class Images implements Parcelable {
     private String hidpi;
     private String normal;
     private String teaser;
-    private Bitmap hidpiImg;
-    private Bitmap normalImg;
-    private Bitmap teaserImg;
+    private Bitmap image;
 
     public void setHidpi(String hidpi) {
         this.hidpi = hidpi;
@@ -36,37 +34,20 @@ public class Images implements Parcelable {
         return this.teaser;
     }
 
-    public void setHidpiImg(Bitmap hidpiImg) {
-        this.hidpiImg = hidpiImg;
+    public void setImage(Bitmap hidpiImg) {
+        this.image = hidpiImg;
     }
 
-    public Bitmap getHidpiImg() {
-        return this.hidpiImg;
+    public Bitmap getImage() {
+        return this.image;
     }
 
-    public void setNormalImg(Bitmap normalImg) {
-        this.normalImg = normalImg;
-    }
-
-    public Bitmap getNormalImg() {
-        return this.normalImg;
-    }
-
-    public void setTeaserImg(Bitmap teaserImg) {
-        this.teaserImg = teaserImg;
-    }
-
-    public Bitmap getTeaserImg() {
-        return this.teaserImg;
-    }
 
     protected Images(Parcel in) {
         hidpi = in.readString();
         normal = in.readString();
         teaser = in.readString();
-        hidpiImg = (Bitmap) in.readValue(Bitmap.class.getClassLoader());
-        normalImg = (Bitmap) in.readValue(Bitmap.class.getClassLoader());
-        teaserImg = (Bitmap) in.readValue(Bitmap.class.getClassLoader());
+        image = (Bitmap) in.readValue(Bitmap.class.getClassLoader());
     }
 
     @Override
@@ -79,9 +60,7 @@ public class Images implements Parcelable {
         dest.writeString(hidpi);
         dest.writeString(normal);
         dest.writeString(teaser);
-        dest.writeValue(hidpiImg);
-        dest.writeValue(normalImg);
-        dest.writeValue(teaserImg);
+        dest.writeValue(image);
     }
 
     @SuppressWarnings("unused")

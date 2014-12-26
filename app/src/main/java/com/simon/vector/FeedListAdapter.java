@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,39 +77,36 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
     }
 
     @Override
-    public void onBindViewHolder(final SimpleViewHolder holder, int position) {
+    public void onBindViewHolder(final SimpleViewHolder holder, final int position) {
 
         Shot shot = mItems.get(position);
 
         holder.title.setText(shot.getTitle());
         holder.creator.setText(shot.getUser().getName());
 
+        String imgUrl;
+
+        if (!TextUtils.isEmpty(shot.getImages().getHidpi())) {
+            imgUrl = shot.getImages().getNormal();
+        } else if (!TextUtils.isEmpty(shot.getImages().getNormal())) {
+            imgUrl = shot.getImages().getNormal();
+        } else {
+            imgUrl = shot.getImages().getTeaser();
+        }
+
         Picasso.with(mContext)
-                .load(shot.getImages().getNormal())
+                .load(imgUrl)
+                .transform(PaletteTransformation.instance())
                 .placeholder(R.drawable.image_placeholder)
                 .into(holder.image, new Callback.EmptyCallback() {
                     @Override
                     public void onSuccess() {
                         Bitmap bitmap = ((BitmapDrawable) holder.image.getDrawable()).getBitmap();
-                        Palette palette = Palette.generate(bitmap);//PaletteTransformation.getPalette(bitmap);
-                        holder.background.setBackgroundColor(palette.getDarkMutedColor(Color.parseColor("#333333")));
+                        mItems.get(position).getImages().setImage(bitmap);
+                        Palette palette = PaletteTransformation.getPalette(bitmap);
+                        holder.background.setBackgroundColor(palette.getDarkMutedColor(palette.getMutedColor(mContext.getResources().getColor(R.color.default_background))));
                     }
                 });
-
-        /*
-        Picasso.with(mContext)
-                .load(shot.getImages().getTeaser())
-                .fit().centerCrop()
-                .transform(PaletteTransformation.instance())
-                .into(holder.image, new Callback.EmptyCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Bitmap bitmap = ((BitmapDrawable) holder.image.getDrawable()).getBitmap();
-                        Palette palette = PaletteTransformation.getPalette(bitmap);
-                        H.toast(palette.getDarkMutedColor(1) + "", mContext);
-                    }
-                });*/
-
     }
 
     @Override

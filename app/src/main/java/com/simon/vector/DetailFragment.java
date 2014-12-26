@@ -1,8 +1,14 @@
 package com.simon.vector;
 
+import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.graphics.Palette;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -16,11 +22,18 @@ import android.support.v7.widget.PopupMenu;
 
 import com.devspark.robototextview.widget.RobotoButton;
 import com.devspark.robototextview.widget.RobotoTextView;
+import com.makeramen.RoundedImageView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class DetailFragment extends Fragment {
 
-    private ImageView image;
-    private CollapsingTitleLayout collapsingTitleLayout;
+    public static ImageView image;
 
     public static Shot shot;
 
@@ -29,65 +42,39 @@ public class DetailFragment extends Fragment {
         return new DetailFragment();
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        image = (ImageView) rootView.findViewById(R.id.detail_image);
-/*
-        collapsingTitleLayout = (CollapsingTitleLayout) rootView.findViewById(R.id.backdrop_toolbar);
-        collapsingTitleLayout.setTitle("FireArt Blog");*/
-
         final LinearLayout header = (LinearLayout) rootView.findViewById(R.id.detail_header);
-        /*
-        NotifyingScrollView notifyingScrollView = (NotifyingScrollView) rootView.findViewById(R.id.detail_notifying_scrollview);
-        notifyingScrollView.setOnScrollChangedListener(new NotifyingScrollView.OnScrollChangedListener() {
+        final LinearLayout subheader = (LinearLayout) rootView.findViewById(R.id.detail_subheader);
+
+        final RoundedImageView profileImageView = (RoundedImageView) rootView.findViewById(R.id.detail_profile);
+
+        image = (ImageView) rootView.findViewById(R.id.detail_image);
+
+        Picasso.with(getActivity())
+                .load(shot.getUser()
+                .getAvatar_url())
+                .placeholder(R.drawable.ic_person)
+                .into(profileImageView);
+
+        rootView.findViewById(R.id.detail_image_button).setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
-            public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
-                collapsingTitleLayout.setScrollOffset((float)((t*2f) + getStatusBarHeight()) / (image.getMeasuredHeight()));
-                H.log((float) t / image.getMeasuredHeight());
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PhotoViewActivity.class);
+                intent.putExtra("image", shot.getImages().getImage());
+
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
+                        getActivity(),
+                        image,
+                        "feedTransition");
+
+                startActivity(intent, options.toBundle());
             }
         });
-
-        final Handler handler = new Handler();
-
-        final Runnable r = new Runnable() {
-            public void run() {
-                collapsingTitleLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, image.getMeasuredHeight()));
-            }
-        };
-
-        handler.postDelayed(r, 10);
-*/
-
-
-        /*
-
-        title
-        creator
-        date
-        description
-
-
-        meta:
-            ()bucket
-            views
-            tags
-        actions:
-            fullscreen
-            like
-            share
-
-        comments:
-            ?sort
-            comment
-
-
-
-
-         */
 
         RobotoTextView detailTitle = (RobotoTextView) rootView.findViewById(R.id.detail_title);
         RobotoTextView detailDescription = (RobotoTextView) rootView.findViewById(R.id.detail_description);
@@ -102,16 +89,62 @@ public class DetailFragment extends Fragment {
         detailColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(getActivity(), v);
-
-                Menu menu = popupMenu.getMenu();
-                menu.add("#009688");
-                menu.add("#FF0000");
-                menu.add("#123456");
-
-                popupMenu.show();
+                //TODO CONT
             }
         });
+
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-mm-dd");
+        try {
+            Date date = fmt.parse(shot.getCreated_at());
+
+            String mn = "";
+
+            int month = date.getMonth();
+            switch (month) {
+                case 1:
+                    mn = getString(R.string.january_short);
+                    break;
+                case 2:
+                    mn = getString(R.string.february_short);
+                    break;
+                case 3:
+                    mn = getString(R.string.march_short);
+                    break;
+                case 4:
+                    mn = getString(R.string.april_short);
+                    break;
+                case 5:
+                    mn = getString(R.string.may_short);
+                    break;
+                case 6:
+                    mn = getString(R.string.june_short);
+                    break;
+                case 7:
+                    mn = getString(R.string.july_short);
+                    break;
+                case 8:
+                    mn = getString(R.string.august_short);
+                    break;
+                case 9:
+                    mn = getString(R.string.september_short);
+                    break;
+                case 10:
+                    mn = getString(R.string.october_short);
+                    break;
+                case 11:
+                    mn = getString(R.string.november_short);
+                    break;
+                case 12:
+                    mn = getString(R.string.december_short);
+                    break;
+                default:
+                    break;
+            }
+
+            detailDate.setText("Dec" + " " + date.getDay() + ", " + (date.getYear() + 1900));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         if (shot.getTags().size() == 0) {
             detailTags.setClickable(false);
@@ -161,6 +194,24 @@ public class DetailFragment extends Fragment {
         } else {
             detailViews.setText(views + " " + getString(R.string.views_plural));
         }
+
+        Bitmap bitmap = shot.getImages().getImage();
+
+        Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(Palette palette) {
+                header.setBackgroundColor(
+                        palette.getDarkMutedColor(
+                                palette.getMutedColor(
+                                        getResources().getColor(R.color.default_background))));
+                subheader.setBackgroundColor(
+                        palette.getDarkVibrantColor(
+                                palette.getVibrantColor(
+                                        getResources().getColor(R.color.default_background))));
+            }
+        });
+
+        image.setImageBitmap(bitmap);
 
         return rootView;
     }
