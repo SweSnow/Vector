@@ -21,18 +21,18 @@
     <string name="views_single">View</string>
     <string name="views_plural">Views</string>
 
-    <string name="january_short">"JAN"</string>
-    <string name="february_short">"FEB"</string>
-    <string name="march_short">"MAR"</string>
-    <string name="april_short">"APR"</string>
-    <string name="may_short">"MAY"</string>
-    <string name="june_short">"JUNE"</string>
-    <string name="july_short">"JULY"</string>
-    <string name="august_short">"AUG"</string>
-    <string name="september_short">"SEPT"</string>
-    <string name="october_short">"OCT"</string>
-    <string name="november_short">"NOV"</string>
-    <string name="december_short">"DEC"</string>
+    <string name="january_short">"Jan"</string>
+    <string name="february_short">"Feb"</string>
+    <string name="march_short">"Mar"</string>
+    <string name="april_short">"Apr"</string>
+    <string name="may_short">"May"</string>
+    <string name="june_short">"June"</string>
+    <string name="july_short">"July"</string>
+    <string name="august_short">"Aug"</string>
+    <string name="september_short">"Sept"</string>
+    <string name="october_short">"Oct"</string>
+    <string name="november_short">"Nov"</string>
+    <string name="december_short">"Dec"</string>
 
     <string-array name="sort_by">
         <item>Popular</item>

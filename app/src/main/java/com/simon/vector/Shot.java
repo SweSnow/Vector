@@ -177,6 +177,10 @@ public class Shot implements Parcelable {
         this.width = width;
     }
 
+    public Shot() {
+
+    }
+
     protected Shot(Parcel in) {
         attachments_count = (Number) in.readValue(Number.class.getClassLoader());
         attachments_url = in.readString();

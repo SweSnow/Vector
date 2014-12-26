@@ -188,6 +188,10 @@ public class User implements Parcelable {
         this.username = username;
     }
 
+    public User() {
+
+    }
+
     protected User(Parcel in) {
         avatar_url = in.readString();
         bio = in.readString();

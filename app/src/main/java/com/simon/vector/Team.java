@@ -195,6 +195,10 @@ public class Team implements Parcelable {
         this.username = username;
     }
 
+    public Team() {
+
+    }
+
     protected Team(Parcel in) {
         avatar_url = in.readString();
         bio = in.readString();

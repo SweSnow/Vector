@@ -42,6 +42,9 @@ public class Images implements Parcelable {
         return this.image;
     }
 
+    public Images() {
+
+    }
 
     protected Images(Parcel in) {
         hidpi = in.readString();

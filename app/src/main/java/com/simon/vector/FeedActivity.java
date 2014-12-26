@@ -30,7 +30,7 @@ public class FeedActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
         if (savedInstanceState == null) {
-            updateFeedFragment(new ApiFormatter().addQuery("shots/").addQuery("1858767").addOption(ApiFormatter.ACCESS_TOKEN).toString());
+            updateFeedFragment(new ApiFormatter().addQuery("shots/").addOption(ApiFormatter.ACCESS_TOKEN).toString());
         }
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
