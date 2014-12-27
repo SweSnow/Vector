@@ -93,13 +93,10 @@ public class DetailFragment extends Fragment {
             }
         });
 
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-mm-dd");
-        try {
-            Date date = fmt.parse(shot.getCreated_at());
+			int month = Integer.parseInt(shot.getCreated_at().substring(5, 7));
 
             String mn = "";
 
-            int month = date.getMonth();
             switch (month) {
                 case 1:
                     mn = getString(R.string.january_short);
@@ -140,11 +137,9 @@ public class DetailFragment extends Fragment {
                 default:
                     break;
             }
+		//	detailDate.setText(fmt2.format(date));
+			detailDate.setText(mn + " " + shot.getCreated_at().substring(8, 10) + ", " + shot.getCreated_at().substring(0, 4));
 
-            detailDate.setText("Dec" + " " + date.getDay() + ", " + (date.getYear() + 1900));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
         if (shot.getTags().size() == 0) {
             detailTags.setClickable(false);
@@ -180,8 +175,8 @@ public class DetailFragment extends Fragment {
         detailDescription.setMovementMethod(LinkMovementMethod.getInstance());
         detailPerson.setText(shot.getUser().getName());
 
-        Number likes = shot.getLikes_count();
-        Number views = shot.getViews_count();
+        int likes = shot.getLikes_count().intValue();
+        int views = shot.getViews_count().intValue();
 
         if (likes == 1) {
             detailLikes.setText(likes + " " + getString(R.string.likes_single));
