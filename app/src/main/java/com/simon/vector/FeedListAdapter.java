@@ -36,6 +36,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
         public final TextView creator;
         public final ImageView image;
         public final FrameLayout background;
+        public final TextView gifTag;
 
         public SimpleViewHolder(View view) {
             super(view);
@@ -43,6 +44,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
             creator = (TextView) view.findViewById(R.id.feed_list_creator);
             image = (ImageView) view.findViewById(R.id.feed_list_image);
             background = (FrameLayout) view.findViewById(R.id.feed_list_background);
+            gifTag = (TextView) view.findViewById(R.id.feed_list_gif_tag);
         }
     }
 
@@ -94,10 +96,13 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
             imgUrl = shot.getImages().getTeaser();
         }
 
+        if (imgUrl.endsWith(".gif")) {
+            holder.gifTag.setVisibility(View.VISIBLE);
+        }
+
         Picasso.with(mContext)
                 .load(imgUrl)
                 .transform(PaletteTransformation.instance())
-                .placeholder(R.drawable.image_placeholder)
                 .into(holder.image, new Callback.EmptyCallback() {
                     @Override
                     public void onSuccess() {

@@ -20,6 +20,9 @@
     <string name="likes_plural">Likes</string>
     <string name="views_single">View</string>
     <string name="views_plural">Views</string>
+    <string name="gif">Gif</string>
+    <string name="share_image">Share</string>
+    <string name="save_image">Save image</string>
 
     <string name="january_short">"Jan"</string>
     <string name="february_short">"Feb"</string>

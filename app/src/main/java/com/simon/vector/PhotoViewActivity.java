@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +14,8 @@ import android.view.ViewGroup;
 import android.os.Build;
 
 public class PhotoViewActivity extends ActionBarActivity {
+
+    private String imageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +27,15 @@ public class PhotoViewActivity extends ActionBarActivity {
                     .add(R.id.container, (Fragment) PhotoViewFragment.newInstance((Bitmap) getIntent().getExtras().get("image")))
                     .commit();
         }
-    }
 
+        imageUrl = (String) getIntent().getExtras().get("url");
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.photo_toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle((String) getIntent().getExtras().get("title"));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -36,13 +46,15 @@ public class PhotoViewActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.photo_share) {
+            
+            //TODO share
+            return true;
+        } else if (id == R.id.photo_save) {
+            //TODO save
             return true;
         }
 

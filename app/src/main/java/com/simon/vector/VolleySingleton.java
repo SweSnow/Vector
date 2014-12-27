@@ -54,6 +54,8 @@ public class VolleySingleton {
     }
 
     public <T> void addToRequestQueue(Request<T> req) {
+        String requestUrl = req.getUrl();
+        String copy = requestUrl;
         getRequestQueue().add(req);
     }
 

@@ -2,6 +2,7 @@ package com.simon.vector;
 
 import android.annotation.TargetApi;
 import android.app.ActivityOptions;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
@@ -22,8 +23,10 @@ public class DetailActivity extends ActionBarActivity {
 
             shot = (Shot) getIntent().getExtras().get("shot");
 
+            Fragment fragment = DetailFragment.newInstance(shot);
+
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, DetailFragment.newInstance(shot))
+                    .add(R.id.container, fragment)
                     .commit();
         }
 

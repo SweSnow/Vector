@@ -11,6 +11,7 @@ import android.app.Fragment;
 import android.support.v7.graphics.Palette;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -66,6 +67,19 @@ public class DetailFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), PhotoViewActivity.class);
                 intent.putExtra("image", shot.getImages().getImage());
+                intent.putExtra("title", shot.getTitle());
+
+                String imgUrl;
+
+                if (!TextUtils.isEmpty(shot.getImages().getHidpi())) {
+                    imgUrl = shot.getImages().getNormal();
+                } else if (!TextUtils.isEmpty(shot.getImages().getNormal())) {
+                    imgUrl = shot.getImages().getNormal();
+                } else {
+                    imgUrl = shot.getImages().getTeaser();
+                }
+
+                intent.putExtra("url", imgUrl);
 
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
                         getActivity(),
@@ -137,7 +151,6 @@ public class DetailFragment extends Fragment {
                 default:
                     break;
             }
-		//	detailDate.setText(fmt2.format(date));
 			detailDate.setText(mn + " " + shot.getCreated_at().substring(8, 10) + ", " + shot.getCreated_at().substring(0, 4));
 
 
@@ -212,6 +225,10 @@ public class DetailFragment extends Fragment {
     }
 
     private CharSequence getDescription(String text) {
+        if (text == null) {
+            return null;
+        }
+
         Spanned description = Html.fromHtml(text);
 
         int lastChar = 0;
