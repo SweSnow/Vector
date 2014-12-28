@@ -29,7 +29,9 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
     private final Context mContext;
     private final TwoWayView mRecyclerView;
     private ArrayList<Shot> mItems = new ArrayList<Shot>();
-    private int mCurrentItemId = 0;
+    public int page = 1;
+
+    public LoadCallback loadCallback = null;
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
@@ -48,9 +50,10 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
         }
     }
 
-    public FeedListAdapter(Context context, TwoWayView recyclerView) {
+    public FeedListAdapter(Context context, TwoWayView recyclerView, int startPage) {
         mContext = context;
         mRecyclerView = recyclerView;
+        page = startPage;
     }
 
     public void setData(ArrayList<Shot> items) {
@@ -58,7 +61,6 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
     }
 
     public void addItem(int position, Shot shot) {
-        final int id = mCurrentItemId++;
         mItems.add(position, shot);
         notifyItemInserted(position);
     }
@@ -102,6 +104,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
 
         Picasso.with(mContext)
                 .load(imgUrl)
+                .placeholder(R.drawable.image_placeholder)
                 .transform(PaletteTransformation.instance())
                 .into(holder.image, new Callback.EmptyCallback() {
                     @Override
@@ -112,10 +115,27 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
                         holder.background.setBackgroundColor(palette.getDarkMutedColor(palette.getMutedColor(mContext.getResources().getColor(R.color.default_background))));
                     }
                 });
+
+        H.log("POSITION: " + position);
+        if (loadCallback == null) {
+            H.log("LOADCALLBACK: " + "NULL");
+        } else {
+            H.log("LOADCALLBACK: " + "NOTNULL");
+        }
+        H.log("PAGE: " + ((page * 12) - 1));
+        H.log("PAGENUMBER: " + ((page * 12) - 1));
+
+        if (position > (page * 11) - 1 && loadCallback != null) {
+            loadCallback.onRequestLoadMore(page, ++page);
+        }
     }
 
     @Override
     public int getItemCount() {
         return mItems.size();
+    }
+
+    public interface LoadCallback {
+        public void onRequestLoadMore(int oldPage, int newPage);
     }
 }

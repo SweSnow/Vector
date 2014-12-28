@@ -50,7 +50,7 @@ public class PhotoViewActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         if (id == R.id.photo_share) {
-            
+
             //TODO share
             return true;
         } else if (id == R.id.photo_save) {

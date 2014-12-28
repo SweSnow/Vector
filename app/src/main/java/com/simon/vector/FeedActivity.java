@@ -30,7 +30,7 @@ public class FeedActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
         if (savedInstanceState == null) {
-            updateFeedFragment(new ApiFormatter().addQuery("shots/").addOption(ApiFormatter.ACCESS_TOKEN).toString());
+            updateFeedFragment(new ApiFormatter().addQuery("shots/").addOption("page=1").addOption(ApiFormatter.ACCESS_TOKEN));
         }
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -75,10 +75,10 @@ public class FeedActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragmentss
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, new FeedFragment())
-                .commit();
+    //    FragmentManager fragmentManager = getSupportFragmentManager();
+    //    fragmentManager.beginTransaction()
+    //            .replace(R.id.container, new FeedFragment())
+    //            .commit();
     }
 
     @Override
@@ -94,16 +94,11 @@ public class FeedActivity extends ActionBarActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-
-
         return super.onOptionsItemSelected(item);
     }
 
-    public void updateFeedFragment(String url) {
-        FeedFragment fragment = new FeedFragment();
-        Bundle args = new Bundle();
-        args.putString(FeedFragment.SENT_URL_KEY, url);
-        fragment.setArguments(args);
+    public void updateFeedFragment(ApiFormatter _apiFormatter) {
+        FeedFragment fragment = FeedFragment.createNewInstance(_apiFormatter);
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, fragment)

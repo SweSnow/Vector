@@ -35,21 +35,25 @@ public class FeedFragment extends Fragment {
     public FeedListAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private String url = "";
     private boolean hasUrl = false;
+
+    public static  ApiFormatter apiFormatter;
 
     private final static String RECYCLER_SCROLL_KEY = "RECYCLER_SCROLL_KEY";
     public final static String SENT_URL_KEY = "SENT_URL_KEY";
+
+    public static FeedFragment createNewInstance(ApiFormatter formatter) {
+
+        FeedFragment.apiFormatter = formatter;
+        return new FeedFragment();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            url = getArguments().getString(SENT_URL_KEY);
-            if (!TextUtils.isEmpty(url)) {
-                hasUrl = true;
-            }
+        if (!TextUtils.isEmpty(apiFormatter.toString())) {
+            hasUrl = true;
         }
     }
 
@@ -61,7 +65,16 @@ public class FeedFragment extends Fragment {
         TwoWayView recyclerView = (TwoWayView) rootView.findViewById(R.id.list);
         recyclerView.setHasFixedSize(false);
 
-        adapter = new FeedListAdapter(getActivity(), recyclerView);
+        //TODO not hard coded to 1
+        adapter = new FeedListAdapter(getActivity(), recyclerView, 1);
+        adapter.loadCallback = new FeedListAdapter.LoadCallback() {
+            @Override
+            public void onRequestLoadMore(int oldPage, int newPage) {
+                apiFormatter.changeOption("page", Integer.toString(newPage), Integer.toString(oldPage));
+                loadData();
+            }
+        };
+
         recyclerView.setAdapter(adapter);
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -100,10 +113,10 @@ public class FeedFragment extends Fragment {
             }
         });
 
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.feed_refresh_layout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.color_primary, R.color.color_accent);
+    //    swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.feed_refresh_layout);
+    //    swipeRefreshLayout.setColorSchemeResources(R.color.color_primary, R.color.color_accent);
 
-        swipeRefreshLayout.setEnabled(false);
+     //   swipeRefreshLayout.setEnabled(false);
 
         return rootView;
     }
@@ -111,16 +124,18 @@ public class FeedFragment extends Fragment {
     private void loadData() {
 
         VolleySingleton volleySingleton = VolleySingleton.getInstance(getActivity());
-        volleySingleton.addToRequestQueue(new StringRequest(Request.Method.GET, url,
+        volleySingleton.addToRequestQueue(new StringRequest(Request.Method.GET, apiFormatter.toString(),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-						Gson gson = new Gson();
+                        Gson gson = new Gson();
 
-						Shot[] shots = gson.fromJson(response, Shot[].class);
+                        Shot[] shots = gson.fromJson(response, Shot[].class);
+
+                        int lastIndex = adapter.getItemCount();
 
                         for (int i = 0; i < shots.length; i++) {
-                            adapter.addItem(i, shots[i]);
+                            adapter.addItem(i + lastIndex, shots[i]);
                         }
 
                     }
