@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -27,6 +28,8 @@ public class FeedActivity extends ActionBarActivity
 
     public static int secondaryToolbarHeight = 0;
     public static LinearLayout secondaryToolbar = null;
+
+    private FeedFragment feedFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +59,35 @@ public class FeedActivity extends ActionBarActivity
         adapterBy.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         toolbarSpinnerSortBy.setAdapter(adapterBy);
 
+        toolbarSpinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         TintSpinner toolbarSpinnerSortWhen = (TintSpinner) findViewById(R.id.feed_toolbar_spinner_when);
         ArrayAdapter<CharSequence> adapterWhen = ArrayAdapter.createFromResource(this,
                 R.array.sort_when, R.layout.feed_spinner_layout);
         adapterWhen.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         toolbarSpinnerSortWhen.setAdapter(adapterWhen);
+
+        toolbarSpinnerSortWhen.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -110,14 +137,18 @@ public class FeedActivity extends ActionBarActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if (id == R.id.feed_menu_refresh) {
+            feedFragment.refresh();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
     public void updateFeedFragment(ApiFormatter _apiFormatter) {
-        FeedFragment fragment = FeedFragment.createNewInstance(_apiFormatter);
+         feedFragment = FeedFragment.createNewInstance(_apiFormatter);
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, fragment)
+                .add(R.id.container, feedFragment)
                 .commit();
     }
 

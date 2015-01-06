@@ -6,60 +6,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        
-        <View
-            android:id="@+id/feed_status_pusher"
-            android:background="@color/color_primary"
-            android:layout_width="match_parent"
-            android:layout_height="0dp" />
-
-        <app:android.support.v7.widget.Toolbar
-            style="@style/Elevation4dp"
-            android:minHeight="?attr/actionBarSize"
-            android:id="@+id/feed_toolbar"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            app:contentInsetStart="72dp"
-            app:contentInsetLeft="72dp"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:background="@color/color_primary"   />
 
         <LinearLayout
-            style="@style/Elevation4dp"
-            android:id="@+id/feed_secondary_toolbar"
-            android:orientation="horizontal"
-            android:paddingLeft="72dp"
-            android:paddingRight="72dp"
-            android:paddingTop="8dp"
-            android:background="@color/color_primary"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="48dp">
+            android:layout_height="match_parent">
 
-            <android.support.v7.internal.widget.TintSpinner
-                android:id="@+id/feed_toolbar_spinner_by"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"    />
+            <View
+                android:id="@+id/feed_status_pusher"
+                android:background="@color/color_primary"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
 
-            <android.support.v7.internal.widget.TintSpinner
-                android:layout_marginLeft="16dp"
-                android:id="@+id/feed_toolbar_spinner_when"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"    />
+            <app:android.support.v7.widget.Toolbar
+                style="@style/Elevation4dp"
+                android:minHeight="?attr/actionBarSize"
+                android:id="@+id/feed_toolbar"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                app:contentInsetStart="72dp"
+                app:contentInsetLeft="72dp"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:background="@color/color_primary"   />
+
+            <LinearLayout
+                style="@style/Elevation4dp"
+                android:id="@+id/feed_secondary_toolbar"
+                android:orientation="horizontal"
+                android:paddingLeft="72dp"
+                android:paddingRight="72dp"
+                android:paddingTop="8dp"
+                android:background="@color/color_primary"
+                android:layout_width="match_parent"
+                android:layout_height="48dp">
+
+                <android.support.v7.internal.widget.TintSpinner
+                    android:id="@+id/feed_toolbar_spinner_by"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"    />
+
+                <android.support.v7.internal.widget.TintSpinner
+                    android:layout_marginLeft="16dp"
+                    android:id="@+id/feed_toolbar_spinner_when"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"    />
+
+            </LinearLayout>
+
+            <FrameLayout
+                tools:layout="@layout/fragment_feed"
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
-        <FrameLayout
-            tools:layout="@layout/fragment_feed"
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <View
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="110dp"
+            android:layout_gravity="top|right"
+            android:background="@color/color_accent"
+            android:layout_width="56dp"
+            android:layout_height="56dp"    />
 
-    </LinearLayout>
+    </FrameLayout>
+
+
 
     <fragment
         android:id="@+id/navigation_drawer"

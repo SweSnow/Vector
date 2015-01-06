@@ -23,6 +23,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.internal.LinkedTreeMap;
+import com.nispok.snackbar.Snackbar;
 
 import org.lucasr.twowayview.ItemClickSupport;
 import org.lucasr.twowayview.widget.TwoWayView;
@@ -113,12 +114,26 @@ public class FeedFragment extends Fragment {
             }
         });
 
-    //    swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.feed_refresh_layout);
-    //    swipeRefreshLayout.setColorSchemeResources(R.color.color_primary, R.color.color_accent);
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.feed_refresh_layout);
+        swipeRefreshLayout.setColorSchemeResources(R.color.color_primary, R.color.color_accent);
 
-     //   swipeRefreshLayout.setEnabled(false);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 
         return rootView;
+    }
+
+    public void refresh() {
+        swipeRefreshLayout.setRefreshing(true);
+        apiFormatter.changeOption("page", Integer.toString(1), Integer.toString(adapter.page));
+        adapter.page = 1;
+        loadData();
+
+        adapter.notifyDataSetChanged();
     }
 
     private void loadData() {
@@ -138,12 +153,19 @@ public class FeedFragment extends Fragment {
                             adapter.addItem(i + lastIndex, shots[i]);
                         }
 
+                        swipeRefreshLayout.setRefreshing(false);
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Handle error
+                        swipeRefreshLayout.setRefreshing(false);
+
+                        Snackbar.with(getActivity())
+                                .text(R.string.refresh_failed)
+                                .show(getActivity());
                     }
                 }));
     }

@@ -11,7 +11,7 @@
         android:paddingLeft="@dimen/feed_side_margin"
         android:paddingRight="@dimen/feed_side_margin"
         android:paddingBottom="8dp"
-        android:paddingTop="8dp"
+        android:paddingTop="32dp"
         android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

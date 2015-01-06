@@ -1,5 +1,7 @@
 package com.simon.vector;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -7,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.nispok.snackbar.Snackbar;
 
 public class EntityDetailFragment extends Fragment {
 
@@ -47,4 +51,18 @@ public class EntityDetailFragment extends Fragment {
 
         return rootView;
     }
+
+    private View.OnClickListener mapClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent geoIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + user.getLocation()));
+            if (geoIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivity(geoIntent); // Initiate lookup
+            } else {
+                Snackbar.with(getActivity())
+                        .text(R.string.no_app_location)
+                        .show(getActivity());
+            }
+        }
+    };
 }

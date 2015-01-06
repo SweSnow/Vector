@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.simon.vector.NotifyingScrollView
+    <com.nirhart.parallaxscroll.views.ParallaxScrollView
         android:scrollbars="none"
+        app:parallax_factor="1.9"
         android:id="@+id/detail_notifying_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -127,7 +128,7 @@
                         android:id="@+id/detail_bucket"
                         style="@style/DetailMetaAction"
                         android:drawableLeft="@drawable/ic_color"
-                        android:text="Bucket"
+                        android:text="@string/buckets"
                         app:fontFamily="roboto"
                         app:textWeight="medium"
                         android:layout_width="match_parent"
@@ -190,7 +191,6 @@
 
         </LinearLayout>
 
-    </com.simon.vector.NotifyingScrollView>
+    </com.nirhart.parallaxscroll.views.ParallaxScrollView>
 
 </FrameLayout>
-
