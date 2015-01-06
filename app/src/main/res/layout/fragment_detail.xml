@@ -29,6 +29,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
+                <pl.droidsonroids.gif.GifImageView
+                    android:visibility="gone"
+                    android:id="@+id/detail_image_gif"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
                 <Button
                     android:id="@+id/detail_image_button"
                     android:background="?android:attr/selectableItemBackground"
@@ -115,7 +124,7 @@
                         android:layout_height="wrap_content" />
 
                     <com.devspark.robototextview.widget.RobotoButton
-                        android:id="@+id/detail_color"
+                        android:id="@+id/detail_bucket"
                         style="@style/DetailMetaAction"
                         android:drawableLeft="@drawable/ic_color"
                         android:text="Bucket"

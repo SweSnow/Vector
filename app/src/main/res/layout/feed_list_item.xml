@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                style="@style/Elevation8dp"
+                style="@style/Elevation4dp"
                 android:textSize="14sp"
                 android:textColor="#ffffff"
                 android:minWidth="0dp"

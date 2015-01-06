@@ -1,17 +1,20 @@
 package com.simon.vector;
 
+import android.support.v4.widget.SearchViewCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.internal.widget.TintSpinner;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -84,8 +87,21 @@ public class FeedActivity extends ActionBarActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.feed, menu);
+/*
+        final FeedActivity self = this;
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.feed_menu_search);
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                secondaryToolbar.startAnimation(AnimationUtils.loadAnimation(self, R.anim.toolbar_out));
+            }
+        });*/
+
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -1,5 +1,6 @@
 package com.simon.vector;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
 
@@ -19,6 +20,10 @@ public class Resource {
     }
     public static boolean isKkOrAbove() {
         return Build.VERSION.SDK_INT >= 19;
+    }
+
+    public static int getPx(int dp, Context ctx) {
+        return (int) (dp * ctx.getResources().getDisplayMetrics().density + 0.5f);
     }
 
 }

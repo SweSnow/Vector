@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.AnimationUtils;
 
 public class DetailActivity extends ActionBarActivity {
 
@@ -19,7 +20,16 @@ public class DetailActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
+
         if (savedInstanceState == null) {
+
+            toolbar.startAnimation(AnimationUtils.loadAnimation(this, R.anim.toolbar_in));
 
             shot = (Shot) getIntent().getExtras().get("shot");
 
@@ -29,15 +39,7 @@ public class DetailActivity extends ActionBarActivity {
                     .add(R.id.container, fragment)
                     .commit();
         }
-
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -76,5 +78,4 @@ public class DetailActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

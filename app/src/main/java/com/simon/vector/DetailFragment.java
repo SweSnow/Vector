@@ -1,6 +1,7 @@
 package com.simon.vector;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.support.v7.widget.PopupMenu;
@@ -32,9 +34,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class DetailFragment extends Fragment {
 
     public static ImageView image;
+    private GifImageView imageGif;
 
     public static Shot shot;
 
@@ -53,11 +58,21 @@ public class DetailFragment extends Fragment {
 
         final RoundedImageView profileImageView = (RoundedImageView) rootView.findViewById(R.id.detail_profile);
 
+        profileImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), EntityDetailActivity.class);
+                intent.putExtra("entity", shot.getUser());
+
+                startActivity(intent);
+            }
+        });
+
         image = (ImageView) rootView.findViewById(R.id.detail_image);
+        imageGif = (GifImageView) rootView.findViewById(R.id.detail_image_gif);
 
         Picasso.with(getActivity())
-                .load(shot.getUser()
-                .getAvatar_url())
+                .load(shot.getUser().getAvatar_url())
                 .placeholder(R.drawable.ic_person)
                 .into(profileImageView);
 
@@ -90,69 +105,74 @@ public class DetailFragment extends Fragment {
             }
         });
 
+        if (TextUtils.isEmpty(shot.getDescription())) {
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) profileImageView.getLayoutParams();
+            params.setMargins(0, 0, 0, 0);
+        }
+
         RobotoTextView detailTitle = (RobotoTextView) rootView.findViewById(R.id.detail_title);
         RobotoTextView detailDescription = (RobotoTextView) rootView.findViewById(R.id.detail_description);
 
         RobotoButton detailPerson = (RobotoButton) rootView.findViewById(R.id.detail_person);
-        RobotoButton detailColor = (RobotoButton) rootView.findViewById(R.id.detail_color);
+        RobotoButton detailBucket = (RobotoButton) rootView.findViewById(R.id.detail_bucket);
         RobotoButton detailTags = (RobotoButton) rootView.findViewById(R.id.detail_tags);
         RobotoTextView detailDate = (RobotoTextView) rootView.findViewById(R.id.detail_date);
         RobotoTextView detailLikes = (RobotoTextView) rootView.findViewById(R.id.detail_likes);
         RobotoTextView detailViews = (RobotoTextView) rootView.findViewById(R.id.detail_views);
 
-        detailColor.setOnClickListener(new View.OnClickListener() {
+        detailBucket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO CONT
             }
         });
 
-			int month = Integer.parseInt(shot.getCreated_at().substring(5, 7));
+        int month = Integer.parseInt(shot.getCreated_at().substring(5, 7));
 
-            String mn = "";
+        String mn = "";
 
-            switch (month) {
-                case 1:
-                    mn = getString(R.string.january_short);
-                    break;
-                case 2:
-                    mn = getString(R.string.february_short);
-                    break;
-                case 3:
-                    mn = getString(R.string.march_short);
-                    break;
-                case 4:
-                    mn = getString(R.string.april_short);
-                    break;
-                case 5:
-                    mn = getString(R.string.may_short);
-                    break;
-                case 6:
-                    mn = getString(R.string.june_short);
-                    break;
-                case 7:
-                    mn = getString(R.string.july_short);
-                    break;
-                case 8:
-                    mn = getString(R.string.august_short);
-                    break;
-                case 9:
-                    mn = getString(R.string.september_short);
-                    break;
-                case 10:
-                    mn = getString(R.string.october_short);
-                    break;
-                case 11:
-                    mn = getString(R.string.november_short);
-                    break;
-                case 12:
-                    mn = getString(R.string.december_short);
-                    break;
-                default:
-                    break;
-            }
-			detailDate.setText(mn + " " + shot.getCreated_at().substring(8, 10) + ", " + shot.getCreated_at().substring(0, 4));
+        switch (month) {
+            case 1:
+                mn = getString(R.string.january_short);
+                break;
+            case 2:
+                mn = getString(R.string.february_short);
+                break;
+            case 3:
+                mn = getString(R.string.march_short);
+                break;
+            case 4:
+                mn = getString(R.string.april_short);
+                break;
+            case 5:
+                mn = getString(R.string.may_short);
+                break;
+            case 6:
+                mn = getString(R.string.june_short);
+                break;
+            case 7:
+                mn = getString(R.string.july_short);
+                break;
+            case 8:
+                mn = getString(R.string.august_short);
+                break;
+            case 9:
+                mn = getString(R.string.september_short);
+                break;
+            case 10:
+                mn = getString(R.string.october_short);
+                break;
+            case 11:
+                mn = getString(R.string.november_short);
+                break;
+            case 12:
+                mn = getString(R.string.december_short);
+                break;
+            default:
+                break;
+        }
 
+		detailDate.setText(mn + " " + ((shot.getCreated_at().substring(8, 10).startsWith("0")) ? shot.getCreated_at().substring(9, 10) : shot.getCreated_at().substring(8, 10)) + ", " + shot.getCreated_at().substring(0, 4));
 
         if (shot.getTags().size() == 0) {
             detailTags.setClickable(false);

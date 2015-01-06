@@ -55,4 +55,6 @@
     <string name="title_activity_entity_detail">EntityDetailActivity</string>
     <string name="title_activity_photo_view">PhotoViewActivity</string>
 
+    <string name="feed_item_columns">2</string>
+
 </resources>

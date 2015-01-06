@@ -41,6 +41,8 @@ public class EntityDetailFragment extends Fragment {
 
         if (mode == USER) {
             ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(user.getName());
+        } else if (mode == TEAM) {
+            ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(team.getName());
         }
 
         return rootView;

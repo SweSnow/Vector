@@ -8,14 +8,14 @@
 
     <org.lucasr.twowayview.widget.TwoWayView
         android:id="@+id/list"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
+        android:paddingLeft="@dimen/feed_side_margin"
+        android:paddingRight="@dimen/feed_side_margin"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
         android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:twowayview_layoutManager="GridLayoutManager"
-        app:twowayview_numColumns="2"   />
+        app:twowayview_layoutManager="StaggeredGridLayoutManager"
+        app:twowayview_numColumns="@string/feed_item_columns"   />
 
 </android.support.v4.widget.SwipeRefreshLayout>

@@ -116,16 +116,14 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
                     }
                 });
 
-        H.log("POSITION: " + position);
-        if (loadCallback == null) {
-            H.log("LOADCALLBACK: " + "NULL");
-        } else {
-            H.log("LOADCALLBACK: " + "NOTNULL");
+        int threshold = 0;
+        for (int i = 0; i < page; i++) {
+            threshold += 12;
         }
-        H.log("PAGE: " + ((page * 12) - 1));
-        H.log("PAGENUMBER: " + ((page * 12) - 1));
 
-        if (position > (page * 11) - 1 && loadCallback != null) {
+        threshold -= 4;
+
+        if (position > threshold && loadCallback != null) {
             loadCallback.onRequestLoadMore(page, ++page);
         }
     }
