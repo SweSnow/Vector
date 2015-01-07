@@ -6,6 +6,8 @@
     <color name="color_accent">#ff8833</color>
     <color name="color_control_highlight">#88ea4c89</color>
 
+    <color name="text_normal">#666666</color>
+
     <color name="transparent_white">#99ffffff</color>
     <color name="transparent_gray">#66cccccc</color>
     <color name="light_gray">#ddffffff</color>

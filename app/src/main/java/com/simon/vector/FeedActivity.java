@@ -56,7 +56,7 @@ public class FeedActivity extends ActionBarActivity
         TintSpinner toolbarSpinnerSortBy = (TintSpinner) findViewById(R.id.feed_toolbar_spinner_by);
         ArrayAdapter<CharSequence> adapterBy = ArrayAdapter.createFromResource(this,
                 R.array.sort_by, R.layout.feed_spinner_layout);
-        adapterBy.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterBy.setDropDownViewResource(R.layout.feed_spinner_dropdown_layout);
         toolbarSpinnerSortBy.setAdapter(adapterBy);
 
         toolbarSpinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -74,7 +74,7 @@ public class FeedActivity extends ActionBarActivity
         TintSpinner toolbarSpinnerSortWhen = (TintSpinner) findViewById(R.id.feed_toolbar_spinner_when);
         ArrayAdapter<CharSequence> adapterWhen = ArrayAdapter.createFromResource(this,
                 R.array.sort_when, R.layout.feed_spinner_layout);
-        adapterWhen.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterWhen.setDropDownViewResource(R.layout.feed_spinner_dropdown_layout);
         toolbarSpinnerSortWhen.setAdapter(adapterWhen);
 
         toolbarSpinnerSortWhen.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
