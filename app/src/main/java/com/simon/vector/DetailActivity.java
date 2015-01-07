@@ -62,6 +62,7 @@ public class DetailActivity extends ActionBarActivity {
         } else if (id == R.id.detail_fullscreen) {
             Intent intent = new Intent(this, PhotoViewActivity.class);
             intent.putExtra("image", shot.getImages().getImage());
+            intent.putExtra("title", shot.getTitle());
 
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
                     this,

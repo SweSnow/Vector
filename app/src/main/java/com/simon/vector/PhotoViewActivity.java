@@ -1,6 +1,7 @@
 package com.simon.vector;
 
 import android.graphics.Bitmap;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -13,9 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 public class PhotoViewActivity extends ActionBarActivity {
 
     private String imageUrl;
+    private Bitmap image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +28,10 @@ public class PhotoViewActivity extends ActionBarActivity {
         setContentView(R.layout.activity_photo_view);
         if (savedInstanceState == null) {
 
+            image = (Bitmap) getIntent().getExtras().get("image");
+
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, (Fragment) PhotoViewFragment.newInstance((Bitmap) getIntent().getExtras().get("image")))
+                    .add(R.id.container, PhotoViewFragment.newInstance(image))
                     .commit();
         }
 
@@ -54,7 +61,18 @@ public class PhotoViewActivity extends ActionBarActivity {
             //TODO share
             return true;
         } else if (id == R.id.photo_save) {
-            //TODO save
+            String filename = "/Pictures/Vector/" + getIntent().getExtras().get("title") + ".jpg";
+            File sd = Environment.getExternalStorageDirectory();
+            File dest = new File(sd, filename);
+
+            try {
+                FileOutputStream out = new FileOutputStream(dest);
+                image.compress(Bitmap.CompressFormat.PNG, 100, out);
+                out.flush();
+                out.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return true;
         }
 
