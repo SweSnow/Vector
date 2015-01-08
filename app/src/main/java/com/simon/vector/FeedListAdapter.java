@@ -2,7 +2,6 @@ package com.simon.vector;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
@@ -10,28 +9,25 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import org.lucasr.twowayview.widget.TwoWayView;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.SimpleViewHolder> {
-    private static final int COUNT = 100;
 
     private final Context mContext;
-    private final TwoWayView mRecyclerView;
+    private final RecyclerView mRecyclerView;
     private ArrayList<Shot> mItems = new ArrayList<Shot>();
     public int page = 1;
 
-    public LoadCallback loadCallback = null;
+    public ListLoadCallback loadCallback = null;
+    public ListClickCallback clickCallback = null;
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
@@ -39,6 +35,8 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
         public final ImageView image;
         public final FrameLayout background;
         public final TextView gifTag;
+        public final Button overlay;
+        public final View layout;
 
         public SimpleViewHolder(View view) {
             super(view);
@@ -47,10 +45,12 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
             image = (ImageView) view.findViewById(R.id.feed_list_image);
             background = (FrameLayout) view.findViewById(R.id.feed_list_background);
             gifTag = (TextView) view.findViewById(R.id.feed_list_gif_tag);
+            overlay = (Button) view.findViewById(R.id.feed_list_overlay);
+            layout = view;
         }
     }
 
-    public FeedListAdapter(Context context, TwoWayView recyclerView, int startPage) {
+    public FeedListAdapter(Context context, RecyclerView recyclerView, int startPage) {
         mContext = context;
         mRecyclerView = recyclerView;
         page = startPage;
@@ -82,8 +82,14 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
 
     @Override
     public void onBindViewHolder(final SimpleViewHolder holder, final int position) {
-
         Shot shot = mItems.get(position);
+
+        holder.overlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickCallback.onListItemClick(position, holder.layout);
+            }
+        });
 
         holder.title.setText(shot.getTitle());
         holder.creator.setText(shot.getUser().getName());
@@ -121,7 +127,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
             threshold += 12;
         }
 
-        threshold -= 4;
+        threshold -= Options.getFeedLoadThreshold();
 
         if (position > threshold && loadCallback != null) {
             loadCallback.onRequestLoadMore(page, ++page);
@@ -133,7 +139,12 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
         return mItems.size();
     }
 
-    public interface LoadCallback {
+    public interface ListLoadCallback {
         public void onRequestLoadMore(int oldPage, int newPage);
     }
+
+    public interface ListClickCallback {
+        public void onListItemClick(int position, View view);
+    }
+
 }

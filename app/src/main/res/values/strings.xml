@@ -40,9 +40,11 @@
 
     <string-array name="sort_by">
         <item>Popular</item>
-        <item>Trending</item>
-        <item>Other</item>
+        <item>Comments</item>
+        <item>Recent</item>
+        <item>Views</item>
     </string-array>
+
     <string-array name="sort_when">
         <item>Now</item>
         <item>This week</item>

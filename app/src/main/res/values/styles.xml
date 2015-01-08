@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/color_accent</item>
         <item name="colorControlNormal">@android:color/white</item>
         <item name="colorControlHighlight">@color/transparent_gray</item>
+
     </style>
 
     <style name="DetailMeta">

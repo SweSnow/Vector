@@ -93,7 +93,8 @@
 
     </LinearLayout>
 
-    <View
+    <Button
+        android:id="@+id/feed_list_overlay"
         android:clickable="true"
         android:background="?android:attr/selectableItemBackground"
         android:layout_width="match_parent"

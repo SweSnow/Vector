@@ -1,13 +1,8 @@
 package com.simon.vector;
 
-import android.app.Activity;
-import android.support.v4.widget.SearchViewCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.internal.widget.TintSpinner;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -20,16 +15,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 
-
 public class FeedActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+    implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
     public static int secondaryToolbarHeight = 0;
     public static LinearLayout secondaryToolbar = null;
 
+    private TintSpinner toolbarSpinnerSortBy, toolbarSpinnerSortWhen;
+
     private FeedFragment feedFragment;
+
+    private boolean onCreateDone = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,48 +51,86 @@ public class FeedActivity extends ActionBarActivity
         secondaryToolbar = (LinearLayout) findViewById(R.id.feed_secondary_toolbar);
         secondaryToolbarHeight = secondaryToolbar.getLayoutParams().height;
 
-        TintSpinner toolbarSpinnerSortBy = (TintSpinner) findViewById(R.id.feed_toolbar_spinner_by);
+        toolbarSpinnerSortBy = (TintSpinner) findViewById(R.id.feed_toolbar_spinner_by);
         ArrayAdapter<CharSequence> adapterBy = ArrayAdapter.createFromResource(this,
                 R.array.sort_by, R.layout.feed_spinner_layout);
         adapterBy.setDropDownViewResource(R.layout.feed_spinner_dropdown_layout);
         toolbarSpinnerSortBy.setAdapter(adapterBy);
 
-        toolbarSpinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        TintSpinner toolbarSpinnerSortWhen = (TintSpinner) findViewById(R.id.feed_toolbar_spinner_when);
+        toolbarSpinnerSortWhen = (TintSpinner) findViewById(R.id.feed_toolbar_spinner_when);
         ArrayAdapter<CharSequence> adapterWhen = ArrayAdapter.createFromResource(this,
                 R.array.sort_when, R.layout.feed_spinner_layout);
         adapterWhen.setDropDownViewResource(R.layout.feed_spinner_dropdown_layout);
         toolbarSpinnerSortWhen.setAdapter(adapterWhen);
 
-        toolbarSpinnerSortWhen.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        toolbarSpinnerSortBy.post(new Runnable() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void run() {
+                toolbarSpinnerSortBy.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if (onCreateDone) {
+                            refreshSpinnerData();
+                        }
+                    }
 
-            }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+                    }
+                });
             }
         });
+
+        toolbarSpinnerSortWhen.post(new Runnable() {
+            @Override
+            public void run() {
+                toolbarSpinnerSortWhen.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if (onCreateDone) {
+                            refreshSpinnerData();
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+            }
+        });
+
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        onCreateDone = true;
+        H.log("STARTED");
 
+    }
+
+    private void refreshSpinnerData() {
+        H.log("DETTA HÄNDER BARA OM STARTED HAR KALLATS");
+        updateFeedFragment(
+                new ApiFormatter()
+                        .addQuery("shots/")
+                        .addOption("page=1")
+                        .addOption(appendSortWhen(toolbarSpinnerSortBy.getSelectedItemPosition()))
+                        .addOption(appendSortBy(toolbarSpinnerSortBy.getSelectedItemPosition()))
+                        .addOption(ApiFormatter.ACCESS_TOKEN));
+    }
+
+    private String appendSortBy(int selected) {
+        String[] sortByValues = new String[] {null, "comments", "recent", "views"};
+        return sortByValues[selected];
+    }
+
+    private String appendSortWhen(int selected) {
+        String[] sortWhenValue = new String[] {null, "week", "month", "year", "ever"};
+        return sortWhenValue[selected];
     }
 
     @Override
@@ -135,11 +171,8 @@ public class FeedActivity extends ActionBarActivity
             }
         });
 
-
         return true;
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -155,6 +188,8 @@ public class FeedActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+
     public void updateFeedFragment(ApiFormatter _apiFormatter) {
         feedFragment = FeedFragment.createNewInstance(_apiFormatter);
 
@@ -162,5 +197,4 @@ public class FeedActivity extends ActionBarActivity
                 .add(R.id.container, feedFragment)
                 .commit();
     }
-
 }

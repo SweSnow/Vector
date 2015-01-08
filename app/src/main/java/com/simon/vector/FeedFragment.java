@@ -7,8 +7,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +20,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 import com.nispok.snackbar.Snackbar;
-
-import org.lucasr.twowayview.ItemClickSupport;
-import org.lucasr.twowayview.widget.TwoWayView;
-
 
 public class FeedFragment extends Fragment {
 
@@ -57,14 +53,17 @@ public class FeedFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
 
-        TwoWayView recyclerView = (TwoWayView) rootView.findViewById(R.id.list);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.list);
         recyclerView.setHasFixedSize(false);
+
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(Integer.parseInt(getString(R.string.feed_item_columns)), 1));
 
         //TODO not hard coded to 1
         adapter = new FeedListAdapter(getActivity(), recyclerView, 1);
-        adapter.loadCallback = new FeedListAdapter.LoadCallback() {
+        adapter.loadCallback = new FeedListAdapter.ListLoadCallback() {
             @Override
             public void onRequestLoadMore(int oldPage, int newPage) {
+                swipeRefreshLayout.setRefreshing(true);
                 apiFormatter.changeOption("page", Integer.toString(newPage), Integer.toString(oldPage));
                 loadData();
             }
@@ -82,27 +81,23 @@ public class FeedFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
         loadData();
 
-        ItemClickSupport itemClick = ItemClickSupport.addTo(recyclerView);
-
-        itemClick.setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+        adapter.clickCallback = new FeedListAdapter.ListClickCallback() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
-            public void onItemClick(RecyclerView recyclerView, View view, int pos, long l) {
+            public void onListItemClick(int position, View view) {
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
 
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
                         getActivity(),
                         view.findViewById(R.id.feed_list_image),
                         "feedTransition");
-                intent.putExtra("shot", adapter.getItem(pos));
+                intent.putExtra("shot", adapter.getItem(position));
 
                 getActivity().startActivity(intent, options.toBundle());
             }
-        });
+        };
 
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

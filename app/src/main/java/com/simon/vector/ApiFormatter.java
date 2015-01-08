@@ -2,6 +2,7 @@ package com.simon.vector;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 public class ApiFormatter implements Parcelable {
 
@@ -21,6 +22,11 @@ public class ApiFormatter implements Parcelable {
     }
 
     public ApiFormatter addOption(String str) {
+
+        if (TextUtils.isEmpty(str)) {
+            return this;
+        }
+
         length++;
 
         if (length == 1) {
