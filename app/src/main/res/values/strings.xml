@@ -22,6 +22,8 @@
     <string name="refresh_failed">Refresh failed</string>
     <string name="no_app_location">No app available to open location</string>
     <string name="buckets">Buckets</string>
+    <string name="save_success">Image saved in</string>
+    <string name="save_fail">Failed to save image</string>
 
     <string name="january_short">"Jan"</string>
     <string name="february_short">"Feb"</string>

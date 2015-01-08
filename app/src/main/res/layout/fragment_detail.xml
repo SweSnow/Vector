@@ -96,6 +96,11 @@
 
             </LinearLayout>
 
+            <FrameLayout
+                android:id="@+id/detail_attachments_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"    />
+
             <LinearLayout
                 style="@style/Elevation2dp"
                 android:id="@+id/detail_subheader"

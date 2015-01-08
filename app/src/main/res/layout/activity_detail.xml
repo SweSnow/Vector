@@ -13,7 +13,7 @@
 
     <app:android.support.v7.widget.Toolbar
         style="@style/Elevation8dp"
-        android:background="#00ffffff"
+        android:background="@drawable/gradient_top_bottom"
         android:clipToPadding="true"
         android:fitsSystemWindows="true"
         android:minHeight="?attr/actionBarSize"

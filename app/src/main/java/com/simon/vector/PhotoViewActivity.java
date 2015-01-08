@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
+import com.nispok.snackbar.Snackbar;
+
 import java.io.File;
 import java.io.FileOutputStream;
 
@@ -61,18 +63,37 @@ public class PhotoViewActivity extends ActionBarActivity {
             //TODO share
             return true;
         } else if (id == R.id.photo_save) {
-            String filename = "/Pictures/Vector/" + getIntent().getExtras().get("title") + ".jpg";
-            File sd = Environment.getExternalStorageDirectory();
-            File dest = new File(sd, filename);
 
-            try {
-                FileOutputStream out = new FileOutputStream(dest);
-                image.compress(Bitmap.CompressFormat.PNG, 100, out);
-                out.flush();
-                out.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+            File directory = new File("/Pictures/Vector");
+            if (directory.mkdir()) {
+                String filename = "/Pictures/Vector/" + getIntent().getExtras().get("title") + ".jpg";
+                File sd = Environment.getExternalStorageDirectory();
+                File dest = new File(sd, filename);
+
+                try {
+                    FileOutputStream out = new FileOutputStream(dest);
+                    image.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    out.flush();
+                    out.close();
+
+                    Snackbar.with(this)
+                            .text(getString(R.string.save_success) + " " +  sd.getPath() + filename)
+                            .show(this);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    Snackbar.with(this)
+                            .text(R.string.save_fail).
+                            show(this);
+                }
+            } else {
+                Snackbar.with(this)
+                        .text(R.string.save_fail).
+                        show(this);
             }
+
+
             return true;
         }
 

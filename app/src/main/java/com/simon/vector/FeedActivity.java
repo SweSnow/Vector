@@ -1,5 +1,6 @@
 package com.simon.vector;
 
+import android.app.Activity;
 import android.support.v4.widget.SearchViewCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -18,7 +19,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 
 
 public class FeedActivity extends ActionBarActivity
@@ -114,16 +114,27 @@ public class FeedActivity extends ActionBarActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.feed, menu);
-/*
+
         final FeedActivity self = this;
 
-        SearchView searchView = (SearchView) menu.findItem(R.id.feed_menu_search);
-        searchView.setOnClickListener(new View.OnClickListener() {
+        MenuItem searchItem = menu.findItem(R.id.feed_menu_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                secondaryToolbar.startAnimation(AnimationUtils.loadAnimation(self, R.anim.secondary_toolbar_in));
+                return false;
+            }
+        });
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                secondaryToolbar.startAnimation(AnimationUtils.loadAnimation(self, R.anim.toolbar_out));
+                secondaryToolbar.startAnimation(AnimationUtils.loadAnimation(self, R.anim.secondary_toolbar_out));
             }
-        });*/
+        });
+
 
         return true;
     }
@@ -145,7 +156,7 @@ public class FeedActivity extends ActionBarActivity
     }
 
     public void updateFeedFragment(ApiFormatter _apiFormatter) {
-         feedFragment = FeedFragment.createNewInstance(_apiFormatter);
+        feedFragment = FeedFragment.createNewInstance(_apiFormatter);
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, feedFragment)

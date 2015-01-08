@@ -241,6 +241,8 @@ public class DetailFragment extends Fragment {
 
         image.setImageBitmap(bitmap);
 
+       // detail_attachments_container
+
         return rootView;
     }
 
