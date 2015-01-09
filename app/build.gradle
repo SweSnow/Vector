@@ -39,8 +39,10 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.4.0'
     compile 'com.github.chrisbanes.photoview:library:1.2.3'
     compile 'com.afollestad:material-dialogs:0.5.8'
-    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
     compile 'com.github.nirhart:parallaxscroll:1.0'
     compile 'com.nispok:snackbar:2.7.3'
-    compile 'it.neokree:MaterialNavigationDrawer:1.2.9'
+    compile 'com.squareup.okhttp:okhttp:2.2.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:1.6.0'
+    compile 'com.felipecsl:gifimageview:1.0.6'
+    compile group: 'commons-io', name: 'commons-io', version: '2.4'
 }

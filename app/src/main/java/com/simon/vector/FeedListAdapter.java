@@ -94,15 +94,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
         holder.title.setText(shot.getTitle());
         holder.creator.setText(shot.getUser().getName());
 
-        String imgUrl;
-
-        if (!TextUtils.isEmpty(shot.getImages().getHidpi())) {
-            imgUrl = shot.getImages().getNormal();
-        } else if (!TextUtils.isEmpty(shot.getImages().getNormal())) {
-            imgUrl = shot.getImages().getNormal();
-        } else {
-            imgUrl = shot.getImages().getTeaser();
-        }
+        String imgUrl = Resource.getBestImageUrl(shot.getImages());
 
         if (imgUrl.endsWith(".gif")) {
             holder.gifTag.setVisibility(View.VISIBLE);

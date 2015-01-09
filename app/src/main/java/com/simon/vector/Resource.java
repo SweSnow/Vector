@@ -3,6 +3,7 @@ package com.simon.vector;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
+import android.text.TextUtils;
 
 public class Resource {
 
@@ -24,6 +25,16 @@ public class Resource {
 
     public static int getPx(int dp, Context ctx) {
         return (int) (dp * ctx.getResources().getDisplayMetrics().density + 0.5f);
+    }
+
+    public static String getBestImageUrl(Images images) {
+        if (!TextUtils.isEmpty(images.getHidpi())) {
+            return images.getHidpi();
+        } else if (!TextUtils.isEmpty(images.getNormal())) {
+            return images.getNormal();
+        } else {
+            return images.getTeaser();
+        }
     }
 
 }

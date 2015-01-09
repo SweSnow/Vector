@@ -30,7 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <pl.droidsonroids.gif.GifImageView
+                <com.felipecsl.gifimageview.library.GifImageView
                     android:visibility="gone"
                     android:id="@+id/detail_image_gif"
                     android:background="?android:attr/selectableItemBackground"
@@ -96,10 +96,7 @@
 
             </LinearLayout>
 
-            <FrameLayout
-                android:id="@+id/detail_attachments_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"    />
+
 
             <LinearLayout
                 style="@style/Elevation2dp"

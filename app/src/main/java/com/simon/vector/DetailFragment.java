@@ -1,11 +1,9 @@
 package com.simon.vector;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -18,23 +16,15 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.support.v7.widget.PopupMenu;
 
 import com.devspark.robototextview.widget.RobotoButton;
 import com.devspark.robototextview.widget.RobotoTextView;
+import com.felipecsl.gifimageview.library.GifImageView;
 import com.makeramen.RoundedImageView;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-import pl.droidsonroids.gif.GifImageView;
 
 public class DetailFragment extends Fragment {
 
@@ -84,15 +74,7 @@ public class DetailFragment extends Fragment {
                 intent.putExtra("image", shot.getImages().getImage());
                 intent.putExtra("title", shot.getTitle());
 
-                String imgUrl;
-
-                if (!TextUtils.isEmpty(shot.getImages().getHidpi())) {
-                    imgUrl = shot.getImages().getNormal();
-                } else if (!TextUtils.isEmpty(shot.getImages().getNormal())) {
-                    imgUrl = shot.getImages().getNormal();
-                } else {
-                    imgUrl = shot.getImages().getTeaser();
-                }
+                String imgUrl = Resource.getBestImageUrl(shot.getImages());
 
                 intent.putExtra("url", imgUrl);
 
@@ -239,9 +221,22 @@ public class DetailFragment extends Fragment {
             }
         });
 
-        image.setImageBitmap(bitmap);
+        if (shot.getImages().getNormal().endsWith(".gif")) {
 
-       // detail_attachments_container
+
+            new GifDataDownloader() {
+                @Override
+                protected void onPostExecute(final byte[] bytes) {
+                    image.setVisibility(View.GONE);
+                    imageGif.setVisibility(View.VISIBLE);
+
+                    imageGif.setBytes(bytes);
+                    imageGif.startAnimation();
+                }
+            }.execute(Resource.getBestImageUrl(shot.getImages()));
+        }
+
+        image.setImageBitmap(bitmap);
 
         return rootView;
     }
