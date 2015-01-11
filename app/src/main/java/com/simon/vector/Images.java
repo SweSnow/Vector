@@ -5,6 +5,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Images implements Parcelable {
+
+    public final static int RESOLUTION_HIDPI = 0;
+    public final static int RESOLUTION_NORMAL = 1;
+    public final static int RESOLUTION_TEASER = 2;
+
     private String hidpi;
     private String normal;
     private String teaser;

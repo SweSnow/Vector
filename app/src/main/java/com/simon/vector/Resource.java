@@ -27,11 +27,21 @@ public class Resource {
         return (int) (dp * ctx.getResources().getDisplayMetrics().density + 0.5f);
     }
 
-    public static String getBestImageUrl(Images images) {
-        if (!TextUtils.isEmpty(images.getHidpi())) {
-            return images.getHidpi();
-        } else if (!TextUtils.isEmpty(images.getNormal())) {
-            return images.getNormal();
+    public static String getImageUrl(Images images, int requestedQuality) {
+        if (requestedQuality == Images.RESOLUTION_HIDPI) {
+            if (!TextUtils.isEmpty(images.getHidpi())) {
+                return images.getHidpi();
+            } else if (!TextUtils.isEmpty(images.getNormal())) {
+                return images.getNormal();
+            } else {
+                return images.getTeaser();
+            }
+        } else if (requestedQuality == Images.RESOLUTION_NORMAL) {
+            if (!TextUtils.isEmpty(images.getNormal())) {
+                return images.getNormal();
+            } else {
+                return images.getTeaser();
+            }
         } else {
             return images.getTeaser();
         }

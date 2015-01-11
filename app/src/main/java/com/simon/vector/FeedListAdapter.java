@@ -94,10 +94,12 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.Simple
         holder.title.setText(shot.getTitle());
         holder.creator.setText(shot.getUser().getName());
 
-        String imgUrl = Resource.getBestImageUrl(shot.getImages());
+        String imgUrl = Resource.getImageUrl(shot.getImages(), Images.RESOLUTION_NORMAL);
 
         if (imgUrl.endsWith(".gif")) {
             holder.gifTag.setVisibility(View.VISIBLE);
+        } else {
+            holder.gifTag.setVisibility(View.GONE);
         }
 
         Picasso.with(mContext)

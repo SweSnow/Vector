@@ -4,8 +4,14 @@
     tools:context="com.simon.vector.PhotoViewActivity$PlaceholderFragment">
 
     <ImageView
-        android:id="@+id/photo_view_image"
+        android:id="@+id/photo_view_image_transition"
         android:transitionName="@string/transition_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/photo_view_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

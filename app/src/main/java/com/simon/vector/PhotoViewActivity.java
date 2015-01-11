@@ -33,7 +33,7 @@ public class PhotoViewActivity extends ActionBarActivity {
             image = (Bitmap) getIntent().getExtras().get("image");
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, PhotoViewFragment.newInstance(image))
+                    .add(R.id.container, PhotoViewFragment.newInstance(image, (Shot) getIntent().getExtras().get("shot")))
                     .commit();
         }
 

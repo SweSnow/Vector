@@ -23,17 +23,23 @@
 
                 <ImageView
                     android:transitionName="@string/transition_main"
-                    android:id="@+id/detail_image"
-                    android:background="?android:attr/selectableItemBackground"
+                    android:id="@+id/detail_image_transition"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <com.felipecsl.gifimageview.library.GifImageView
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/detail_image"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
                     android:visibility="gone"
                     android:id="@+id/detail_image_gif"
-                    android:background="?android:attr/selectableItemBackground"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
                     android:layout_width="match_parent"

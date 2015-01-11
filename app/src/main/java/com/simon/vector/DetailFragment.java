@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -16,20 +17,26 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.support.v7.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.devspark.robototextview.widget.RobotoButton;
 import com.devspark.robototextview.widget.RobotoTextView;
-import com.felipecsl.gifimageview.library.GifImageView;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 import com.makeramen.RoundedImageView;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 public class DetailFragment extends Fragment {
 
     public static ImageView image;
-    private GifImageView imageGif;
+    public static ImageView imageTransition;
+    private ImageView imageGif;
 
     public static Shot shot;
 
@@ -59,12 +66,78 @@ public class DetailFragment extends Fragment {
         });
 
         image = (ImageView) rootView.findViewById(R.id.detail_image);
-        imageGif = (GifImageView) rootView.findViewById(R.id.detail_image_gif);
+        imageTransition = (ImageView) rootView.findViewById(R.id.detail_image_transition);
+        imageGif = (ImageView) rootView.findViewById(R.id.detail_image_gif);
 
         Picasso.with(getActivity())
                 .load(shot.getUser().getAvatar_url())
                 .placeholder(R.drawable.ic_person)
                 .into(profileImageView);
+
+        Bitmap bitmap = shot.getImages().getImage();
+
+        if (bitmap != null) {
+            Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
+                @Override
+                public void onGenerated(Palette palette) {
+                    header.setBackgroundColor(
+                            palette.getDarkMutedColor(
+                                    palette.getMutedColor(
+                                            getResources().getColor(R.color.default_background))));
+                    subheader.setBackgroundColor(
+                            palette.getDarkVibrantColor(
+                                    palette.getVibrantColor(
+                                            getResources().getColor(R.color.default_background))));
+                }
+            });
+
+            imageTransition.setImageBitmap(bitmap);
+
+        }
+
+        final String hiDpiUrl = Resource.getImageUrl(shot.getImages(), Images.RESOLUTION_HIDPI);
+
+        if (shot.getImages().getNormal().endsWith(".gif")) {
+
+            imageTransition.setVisibility(View.VISIBLE);
+
+            ViewTreeObserver vto = imageTransition.getViewTreeObserver();
+            vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    imageTransition.getViewTreeObserver().removeOnPreDrawListener(this);
+                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) imageTransition.getLayoutParams();
+                    params.height = imageTransition.getMeasuredHeight();
+                    params.width = imageTransition.getMeasuredWidth();
+
+                    imageGif.setLayoutParams(params);
+                    imageGif.setVisibility(View.VISIBLE);
+                    return true;
+                }
+            });
+
+            Ion.with(imageGif)
+                    .load(hiDpiUrl)
+                    .setCallback(new FutureCallback<ImageView>() {
+                @Override
+                public void onCompleted(Exception e, ImageView result) {
+                    image.setVisibility(View.GONE);
+                    imageTransition.setVisibility(View.GONE);
+                }
+            });
+        } else if (!hiDpiUrl.equals(shot.getImages().getNormal())) {
+            Picasso.with(getActivity())
+                    .load(hiDpiUrl)
+                    .skipMemoryCache()
+                    .into(image, new Callback.EmptyCallback() {
+                        @Override
+                        public void onSuccess() {
+                            imageTransition.setVisibility(View.GONE);
+                            image.setVisibility(View.VISIBLE);
+                        }
+                    });
+
+        }
 
         rootView.findViewById(R.id.detail_image_button).setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -73,14 +146,17 @@ public class DetailFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), PhotoViewActivity.class);
                 intent.putExtra("image", shot.getImages().getImage());
                 intent.putExtra("title", shot.getTitle());
+                intent.putExtra("shot", shot);
 
-                String imgUrl = Resource.getBestImageUrl(shot.getImages());
+                String imgUrl = Resource.getImageUrl(shot.getImages(), Images.RESOLUTION_HIDPI);
 
                 intent.putExtra("url", imgUrl);
 
+                imageTransition.setVisibility(View.VISIBLE);
+
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
                         getActivity(),
-                        image,
+                        imageTransition,
                         "feedTransition");
 
                 startActivity(intent, options.toBundle());
@@ -204,39 +280,6 @@ public class DetailFragment extends Fragment {
         } else {
             detailViews.setText(views + " " + getString(R.string.views_plural));
         }
-
-        Bitmap bitmap = shot.getImages().getImage();
-
-        Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
-            @Override
-            public void onGenerated(Palette palette) {
-                header.setBackgroundColor(
-                        palette.getDarkMutedColor(
-                                palette.getMutedColor(
-                                        getResources().getColor(R.color.default_background))));
-                subheader.setBackgroundColor(
-                        palette.getDarkVibrantColor(
-                                palette.getVibrantColor(
-                                        getResources().getColor(R.color.default_background))));
-            }
-        });
-
-        if (shot.getImages().getNormal().endsWith(".gif")) {
-
-
-            new GifDataDownloader() {
-                @Override
-                protected void onPostExecute(final byte[] bytes) {
-                    image.setVisibility(View.GONE);
-                    imageGif.setVisibility(View.VISIBLE);
-
-                    imageGif.setBytes(bytes);
-                    imageGif.startAnimation();
-                }
-            }.execute(Resource.getBestImageUrl(shot.getImages()));
-        }
-
-        image.setImageBitmap(bitmap);
 
         return rootView;
     }

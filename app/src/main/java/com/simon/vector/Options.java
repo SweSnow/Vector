@@ -3,7 +3,7 @@ package com.simon.vector;
 public class Options {
 
     public static int getFeedLoadThreshold() {
-        return 4;
+        return 3;
     }
 
 }
