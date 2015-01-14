@@ -43,5 +43,6 @@ dependencies {
     compile 'com.nispok:snackbar:2.7.3'
     compile 'com.koushikdutta.ion:ion:2.+'
     compile 'com.koushikdutta.async:androidasync:2.+'
+    compile 'com.shamanland:fab:0.0.7'
     compile group: 'commons-io', name: 'commons-io', version: '2.4'
 }

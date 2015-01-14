@@ -25,7 +25,7 @@
                 style="@style/Elevation4dp"
                 android:minHeight="?attr/actionBarSize"
                 android:id="@+id/feed_toolbar"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_width="match_parent"
                 app:contentInsetStart="72dp"
                 app:contentInsetLeft="72dp"
@@ -65,13 +65,13 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="110dp"
+        <include
             android:layout_gravity="top|right"
-            android:background="@color/color_accent"
-            android:layout_width="56dp"
-            android:layout_height="56dp"    />
+            android:layout_marginEnd="@dimen/feed_side_margin"
+            android:layout_marginRight="@dimen/feed_side_margin"
+            android:layout_width="@dimen/fab_size"
+            android:layout_height="@dimen/fab_size"
+            layout="@layout/fab"   />
 
     </FrameLayout>
 

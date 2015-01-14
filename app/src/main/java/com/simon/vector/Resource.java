@@ -23,8 +23,8 @@ public class Resource {
         return Build.VERSION.SDK_INT >= 19;
     }
 
-    public static int getPx(int dp, Context ctx) {
-        return (int) (dp * ctx.getResources().getDisplayMetrics().density + 0.5f);
+    public static int getPx(int dp, Resources resources) {
+        return (int) (dp * resources.getDisplayMetrics().density + 0.5f);
     }
 
     public static String getImageUrl(Images images, int requestedQuality) {

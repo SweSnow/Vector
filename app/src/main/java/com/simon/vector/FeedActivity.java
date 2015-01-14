@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.internal.widget.TintSpinner;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
@@ -13,7 +14,11 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
+import com.shamanland.fab.FloatingActionButton;
 
 public class FeedActivity extends ActionBarActivity
     implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -101,6 +106,40 @@ public class FeedActivity extends ActionBarActivity
             }
         });
 
+        TypedValue tv = new TypedValue();
+        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+
+            int actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+
+            if (Resource.isLOrAbove()) {
+                ImageButton fab = (ImageButton) findViewById(R.id.feed_fab_l);
+
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) fab.getLayoutParams();
+                params.setMargins(0, Resource.getStatusBarHeight(getResources()) + actionBarHeight + Resource.getPx(48, getResources()) - Math.round(getResources().getDimension(R.dimen.fab_size) / 2), Math.round(getResources().getDimension(R.dimen.feed_side_margin)), 0);
+
+                fab.setLayoutParams(params);
+
+                fab.setOnClickListener(fabClickListener);
+            } else if (Resource.isKkOrAbove()) {
+                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.feed_fab);
+
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) fab.getLayoutParams();
+                params.setMargins(0, Resource.getStatusBarHeight(getResources()) + actionBarHeight + Resource.getPx(48, getResources()) - (Resource.getPx(56, getResources()) / 2), Math.round(getResources().getDimension(R.dimen.feed_side_margin)), 0);
+
+                fab.setLayoutParams(params);
+
+                fab.setOnClickListener(fabClickListener);
+            } else {
+                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.feed_fab);
+
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) fab.getLayoutParams();
+                params.setMargins(0, actionBarHeight + Resource.getPx(48, getResources()) - (Resource.getPx(56, getResources()) / 2), Math.round(getResources().getDimension(R.dimen.feed_side_margin)), 0);
+
+                fab.setLayoutParams(params);
+
+                fab.setOnClickListener(fabClickListener);
+            }
+        }
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -111,6 +150,13 @@ public class FeedActivity extends ActionBarActivity
         H.log("STARTED");
 
     }
+
+    private View.OnClickListener fabClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
 
     private void refreshSpinnerData() {
         H.log("DETTA HÄNDER BARA OM STARTED HAR KALLATS");

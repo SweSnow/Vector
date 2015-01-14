@@ -84,10 +84,10 @@ public class DetailFragment extends Fragment {
                             palette.getDarkMutedColor(
                                     palette.getMutedColor(
                                             getResources().getColor(R.color.default_background))));
-                    subheader.setBackgroundColor(
+                   /* subheader.setBackgroundColor(
                             palette.getDarkVibrantColor(
                                     palette.getVibrantColor(
-                                            getResources().getColor(R.color.default_background))));
+                                            getResources().getColor(R.color.default_background))));*/
                 }
             });
 

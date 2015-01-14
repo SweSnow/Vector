@@ -7,4 +7,6 @@
 
     <dimen name="feed_side_margin">8dp</dimen>
 
+    <dimen name="fab_size">56dp</dimen>
+
 </resources>
