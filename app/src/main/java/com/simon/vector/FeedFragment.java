@@ -42,9 +42,10 @@ public class FeedFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (!TextUtils.isEmpty(apiFormatter.toString())) {
-            hasUrl = true;
+        if (apiFormatter != null) {
+            if (!TextUtils.isEmpty(apiFormatter.toString())) {
+                hasUrl = true;
+            }
         }
     }
 
@@ -126,7 +127,6 @@ public class FeedFragment extends Fragment {
     }
 
     private void loadData() {
-
         VolleySingleton volleySingleton = VolleySingleton.getInstance(getActivity());
         volleySingleton.addToRequestQueue(new StringRequest(Request.Method.GET, apiFormatter.toString(),
                 new Response.Listener<String>() {

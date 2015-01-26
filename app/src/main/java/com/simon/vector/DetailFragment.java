@@ -144,13 +144,6 @@ public class DetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), PhotoViewActivity.class);
-                intent.putExtra("image", shot.getImages().getImage());
-                intent.putExtra("title", shot.getTitle());
-                intent.putExtra("shot", shot);
-
-                String imgUrl = Resource.getImageUrl(shot.getImages(), Images.RESOLUTION_HIDPI);
-
-                intent.putExtra("url", imgUrl);
 
                 imageTransition.setVisibility(View.VISIBLE);
 
@@ -158,6 +151,14 @@ public class DetailFragment extends Fragment {
                         getActivity(),
                         imageTransition,
                         "feedTransition");
+
+                intent.putExtra("image", shot.getImages().getImage());
+                intent.putExtra("title", shot.getTitle());
+                intent.putExtra("shot", shot);
+
+                String imgUrl = Resource.getImageUrl(shot.getImages(), Images.RESOLUTION_HIDPI);
+
+                intent.putExtra("url", imgUrl);
 
                 startActivity(intent, options.toBundle());
             }

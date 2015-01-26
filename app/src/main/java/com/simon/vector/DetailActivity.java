@@ -61,15 +61,19 @@ public class DetailActivity extends ActionBarActivity {
             return true;
         } else if (id == R.id.detail_fullscreen) {
             Intent intent = new Intent(this, PhotoViewActivity.class);
-            intent.putExtra("image", shot.getImages().getImage());
-            intent.putExtra("title", shot.getTitle());
 
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
                     this,
                     DetailFragment.image,
                     "feedTransition");
 
-            startActivity(intent, options.toBundle());
+            Bundle bundle = options.toBundle();
+
+            bundle.putParcelable("image", shot.getImages().getImage());
+            bundle.putString("title", shot.getTitle());
+            bundle.putParcelable("shot", shot);
+
+            startActivity(intent, bundle);
         } else if (id == R.id.detail_share) {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);

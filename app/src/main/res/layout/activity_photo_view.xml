@@ -19,7 +19,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"   />
 
     <FrameLayout
-        android:id="@+id/container"
+        android:id="@+id/photo_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.simon.vector.PhotoViewActivity" />
